@@ -15,6 +15,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/services">Услуги</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/posts">Блог</a>
+                </li>
              </ul>
         </div>
     </div>

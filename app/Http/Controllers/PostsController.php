@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Post;
 
 class PostsController extends Controller
 {
@@ -13,7 +14,8 @@ class PostsController extends Controller
      */
     public function index()
     {
-        //
+        $post = Post::orderBy('created_at', 'desc')->simplePaginate(1);
+        return view('posts.index')->with('posts', $post);
     }
 
     /**
@@ -45,7 +47,7 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('posts.show')->with('post', Post::find($id));
     }
 
     /**
