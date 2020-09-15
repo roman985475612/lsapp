@@ -7,14 +7,23 @@ use Illuminate\Http\Request;
 class PagesController extends Controller
 {
     public function index() {
-        return view('pages.index');
+        $title = 'Добро пожаловать в LSAPP!';
+        return view('pages.index', compact('title'));
     }
 
     public function about() {
-        return view('pages.about');
+        $title = 'О нас';
+        return view('pages.about', compact('title'));
     }
 
     public function services() {
-        return view('pages.services');
+        return view('pages.services', [
+            'title' => 'Наши услуги',
+            'services' => [
+                'Веб-дизайн',
+                'Программирование',
+                'SEO-оптимизация'
+            ]
+        ]);
     }
 }
