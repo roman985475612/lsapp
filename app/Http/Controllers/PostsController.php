@@ -17,7 +17,7 @@ class PostsController extends Controller
     public function index()
     {
         $post = Post::orderBy('created_at', 'desc')->get();
-        return view('posts.index')->with('posts', $post);
+        return view('posts.index', ['title' => 'Блог'])->with('posts', $post);
     }
 
     /**
@@ -27,7 +27,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        return view('posts.create', ['title' => 'Новая статья']);
     }
 
     /**
@@ -44,8 +44,8 @@ class PostsController extends Controller
         ]);
 
         $post = new Post();
-        $post->title = $request->title;
-        $post->body = $request->body;
+        $post->title = $validatedData['title'];
+        $post->body = $validatedData['body'];
         $post->save();
 
         return redirect()->route('posts.index')->with('success', 'Добавлена новая статья!');
@@ -59,7 +59,11 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        return view('posts.show')->with('post', Post::find($id));
+        $post = Post::find($id);
+        return view('posts.show', [
+            'title' => $post->title,
+            'post' => $post
+        ]);
     }
 
     /**
@@ -70,7 +74,11 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::find($id);
+        return view('posts.edit', [
+            'title' => 'Изменение статьи',
+            'post' => $post
+        ]);
     }
 
     /**
@@ -82,7 +90,17 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validatedData = $request->validate([
+            'title' => 'required|max:191',
+            'body' => 'required'
+        ]);
+
+        $post = Post::find($id);
+        $post->title = $validatedData['title'];
+        $post->body = $validatedData['body'];
+        $post->save();
+
+        return redirect()->route('posts.index')->with('success', 'Изменена статья!');
     }
 
     /**
@@ -93,6 +111,9 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::find($id);
+        $post->delete();
+
+        return redirect()->route('posts.index')->with('success', 'Статья удалена!');
     }
 }
