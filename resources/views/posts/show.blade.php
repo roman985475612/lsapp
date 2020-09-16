@@ -28,7 +28,7 @@
                             Вы уверены, что хотите удалить статью "{{ $post->title }}"?
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
                             {!! Form::open(['route' => ['posts.destroy', $post->id], 'method' => 'delete']) !!}
                                 {!! Form::submit('Удалить', ['class' => 'btn btn-danger']) !!}
                             {!! Form::close() !!}

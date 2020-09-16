@@ -46,6 +46,7 @@ class PostsController extends Controller
         $post = new Post();
         $post->title = $validatedData['title'];
         $post->body = $validatedData['body'];
+//        $post->user_id = auth()->user()->id;
         $post->save();
 
         return redirect()->route('posts.index')->with('success', 'Добавлена новая статья!');

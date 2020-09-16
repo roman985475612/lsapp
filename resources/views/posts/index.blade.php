@@ -10,10 +10,10 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ $post->title }}</h5>
                         <p class="card-text">{!! $post->body !!}</p>
-                        <a href="/posts/{{ $post->id }}" class="btn btn-outline-primary">Читать далее...</a>
+                        <a href="{{ route('posts.show', $post->id) }}" class="btn btn-outline-primary">Читать далее...</a>
                     </div>
                     <div class="card-footer">
-                        <small class="text-muted">Last updated {{ $post->updated_at }}</small>
+                        <small class="text-muted">Обновлен {{ $post->updated_at }}</small>
                     </div>
                 </div>
             </div>
