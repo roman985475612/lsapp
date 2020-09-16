@@ -9,7 +9,7 @@
                     <img src="https://fakeimg.pl/350x200/?text=Lsapp&font=lobster" class="card-img-top" alt="Fake img">
                     <div class="card-body">
                         <h5 class="card-title">{{ $post->title }}</h5>
-                        <p class="card-text">{{ $post->body }}</p>
+                        <p class="card-text">{!! $post->body !!}</p>
                         <a href="/posts/{{ $post->id }}" class="btn btn-outline-primary">Читать далее...</a>
                     </div>
                     <div class="card-footer">
@@ -21,5 +21,4 @@
             <p>Списко статей пуст...</p>
         @endforelse
     </div>
-    {{ $posts->links() }}
 @endsection

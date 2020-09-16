@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use App\Models\Post;
+use Illuminate\Support\Facades\Redirect;
 
 class PostsController extends Controller
 {
@@ -14,7 +16,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $post = Post::orderBy('created_at', 'desc')->simplePaginate(1);
+        $post = Post::orderBy('created_at', 'desc')->get();
         return view('posts.index')->with('posts', $post);
     }
 
@@ -25,7 +27,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create');
     }
 
     /**
@@ -36,7 +38,17 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'title' => 'required|max:191',
+            'body' => 'required'
+        ]);
+
+        $post = new Post();
+        $post->title = $request->title;
+        $post->body = $request->body;
+        $post->save();
+
+        return redirect()->route('posts.index')->with('success', 'Добавлена новая статья!');
     }
 
     /**
