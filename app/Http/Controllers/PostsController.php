@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Post;
 
 class PostsController extends Controller
@@ -43,13 +44,25 @@ class PostsController extends Controller
     {
         $validatedData = $request->validate([
             'title' => 'required|max:191',
-            'body' => 'required'
+            'body' => 'required',
+            'cover_image' => 'image|nullable|max:1999'
         ]);
+
+        if ($request->hasFile('cover_image')) {
+            $fileNameWithExt = $request->file('cover_image')->getClientOriginalName();
+            $extention = $request->file('cover_image')->extension();
+            $fileName = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+            $fileNameToStore = $fileName.'_'.time().'.'.$extention;
+            $path = $request->file('cover_image')->storeAs('public/cover_image', $fileNameToStore);
+        } else {
+            $fileNameToStore = '';
+        }
 
         $post = new Post();
         $post->title = $validatedData['title'];
         $post->body = $validatedData['body'];
-//        $post->user_id = auth()->user()->id;
+        $post->user_id = auth()->user()->id;
+        $post->cover_image = $fileNameToStore;
         $post->save();
 
         return redirect()->route('posts.index')->with('success', 'Добавлена новая статья!');
@@ -101,17 +114,30 @@ class PostsController extends Controller
     {
         $validatedData = $request->validate([
             'title' => 'required|max:191',
-            'body' => 'required'
+            'body' => 'required',
+            'cover_image' => 'image|nullable|max:1999'
         ]);
 
         $post = Post::find($id);
+
+        if ($request->hasFile('cover_image')) {
+            $fileNameWithExt = $request->file('cover_image')->getClientOriginalName();
+            $extention = $request->file('cover_image')->extension();
+            $fileName = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+            $fileNameToStore = $fileName.'_'.time().'.'.$extention;
+
+            $request->file('cover_image')->storeAs('public/cover_image', $fileNameToStore);
+
+            $post->cover_image = $fileNameToStore;
+        }
+
+        $post->title = $validatedData['title'];
+        $post->body = $validatedData['body'];
 
         if (auth()->user()->id != $post->user_id) {
             return redirect()->route('posts.show', [$post->id])->with('error', 'У Вас недостаточно прав!');
         }
 
-        $post->title = $validatedData['title'];
-        $post->body = $validatedData['body'];
         $post->save();
 
         return redirect()->route('posts.index')->with('success', 'Изменена статья!');
@@ -129,6 +155,10 @@ class PostsController extends Controller
 
         if (auth()->user()->id != $post->user_id) {
             return redirect()->route('posts.show', [$post->id])->with('error', 'У Вас недостаточно прав!');
+        }
+
+        if ($post->cover_image != '') {
+            Storage::delete('public/cover_image/'.$post->cover_image);
         }
 
         $post->delete();

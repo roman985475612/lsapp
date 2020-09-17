@@ -6,7 +6,11 @@
         @forelse($posts as $post)
             <div class="col">
                 <div class="card h-100">
-                    <img src="https://fakeimg.pl/350x200/?text=Lsapp&font=lobster" class="card-img-top" alt="Fake img">
+                    @if($post->cover_image != '')
+                        <img src="{{ url('/storage/cover_image/'.$post->cover_image) }}" class="card-img-top" alt="{{ $post->title }}">
+                    @else
+                        <img src="{{ url('/storage/cover_image/noimage.jpg') }}" class="card-img-top" alt="No image">
+                    @endif
                     <div class="card-header">
                         <small class="text-muted">Автор: {{ $post->user->name }}</small>
                     </div>

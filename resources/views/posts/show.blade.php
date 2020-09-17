@@ -3,7 +3,9 @@
 @section('content')
     <div class="row">
         <div class="col-md-8 offset-md-2">
-            <img src="https://fakeimg.pl/1024x350/?text=Lsapp&font=lobster" class="img-fluid mt-3" alt="Fake img">
+            @if($post->cover_image != '')
+                <img src="{{ url('/storage/cover_image/'.$post->cover_image) }}" class="img-fluid mt-3" alt="{{ $post->title }}">
+            @endif
             <h1 class="display-5">{{ $post->title }}</h1>
             <div>{!! $post->body !!}</div>
             <hr>
