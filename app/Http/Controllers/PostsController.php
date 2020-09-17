@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
 use App\Models\Post;
-use Illuminate\Support\Facades\Redirect;
 
 class PostsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['index', 'show']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -76,6 +79,11 @@ class PostsController extends Controller
     public function edit($id)
     {
         $post = Post::find($id);
+
+        if (auth()->user()->id != $post->user_id) {
+            return redirect()->route('posts.show', [$post->id])->with('error', 'У Вас недостаточно прав!');
+        }
+
         return view('posts.edit', [
             'title' => 'Изменение статьи',
             'post' => $post
@@ -97,6 +105,11 @@ class PostsController extends Controller
         ]);
 
         $post = Post::find($id);
+
+        if (auth()->user()->id != $post->user_id) {
+            return redirect()->route('posts.show', [$post->id])->with('error', 'У Вас недостаточно прав!');
+        }
+
         $post->title = $validatedData['title'];
         $post->body = $validatedData['body'];
         $post->save();
@@ -113,6 +126,11 @@ class PostsController extends Controller
     public function destroy($id)
     {
         $post = Post::find($id);
+
+        if (auth()->user()->id != $post->user_id) {
+            return redirect()->route('posts.show', [$post->id])->with('error', 'У Вас недостаточно прав!');
+        }
+
         $post->delete();
 
         return redirect()->route('posts.index')->with('success', 'Статья удалена!');
