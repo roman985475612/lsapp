@@ -19,7 +19,7 @@
             <tr>
                 <th>{{ $post->id }}</th>
                 <td>{{ $post->title }}</td>
-                <td>{{ $post->user_id }}</td>
+                <td>{{ $post->user->name }}</td>
                 <td>{{ $post->created_at }}</td>
                 <td>{{ $post->updated_at }}</td>
                 <td>
@@ -45,7 +45,7 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
                                     {!! Form::open(['route' => ['posts.destroy', $post->id], 'method' => 'delete']) !!}
-                                    {!! Form::submit('Удалить', ['class' => 'btn btn-danger']) !!}
+                                        {!! Form::submit('Удалить', ['class' => 'btn btn-danger']) !!}
                                     {!! Form::close() !!}
                                 </div>
                             </div>

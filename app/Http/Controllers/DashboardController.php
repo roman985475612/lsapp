@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Post;
+use App\Models\User;
 
 class DashboardController extends Controller
 {
@@ -13,7 +13,11 @@ class DashboardController extends Controller
     }
 
     public function __invoke() {
-        $post = Post::orderBy('created_at', 'desc')->get();
-        return view('dashboard', ['title' => 'Панель управления'])->with('posts', $post);
+        $user = User::find(auth()->user()->id);
+
+        return view('dashboard', [
+            'title' => 'Панель управления',
+            'posts' => $user->posts,
+        ]);
     }
 }

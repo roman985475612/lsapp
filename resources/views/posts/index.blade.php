@@ -7,6 +7,9 @@
             <div class="col">
                 <div class="card h-100">
                     <img src="https://fakeimg.pl/350x200/?text=Lsapp&font=lobster" class="card-img-top" alt="Fake img">
+                    <div class="card-header">
+                        <small class="text-muted">Автор: {{ $post->user->name }}</small>
+                    </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ $post->title }}</h5>
                         <p class="card-text">{!! $post->body !!}</p>
