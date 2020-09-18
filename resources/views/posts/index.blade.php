@@ -9,7 +9,7 @@
                     @if($post->cover_image != '')
                         <img src="{{ url('/storage/cover_image/'.$post->cover_image) }}" class="card-img-top" alt="{{ $post->title }}">
                     @else
-                        <img src="{{ url('/storage/cover_image/noimage.jpg') }}" class="card-img-top" alt="No image">
+                        <img src="https://placekitten.com/300/200" class="card-img-top" alt="No image">
                     @endif
                     <div class="card-header">
                         <small class="text-muted">Автор: {{ $post->user->name }}</small>
