@@ -16,7 +16,7 @@
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ $post->title }}</h5>
-                        <p class="card-text">{!! $post->body !!}</p>
+                        <p class="card-text">{{ \Illuminate\Support\Str::limit($post->body, 100) }}</p>
                         <a href="{{ route('posts.show', $post->id) }}" class="btn btn-outline-primary">Читать далее...</a>
                     </div>
                     <div class="card-footer">
