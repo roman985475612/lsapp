@@ -11,5 +11,7 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 .idea/
+.vscode/
+.htaccess
 .bashrc
 public_html
