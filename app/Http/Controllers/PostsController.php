@@ -20,7 +20,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $post = Post::orderBy('created_at', 'desc')->get();
+        $post = Post::orderBy('created_at', 'desc')->paginate(9);
         return view('posts.index', ['title' => 'Блог'])->with('posts', $post);
     }
 
@@ -163,6 +163,6 @@ class PostsController extends Controller
 
         $post->delete();
 
-        return redirect()->route('posts.index')->with('success', 'Статья удалена!');
+        return redirect()->route('dashboard')->with('success', 'Статья удалена!');
     }
 }

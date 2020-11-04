@@ -3,7 +3,8 @@
 @section('content')
     <h1 class="display-4">{{ $title }}</h1>
     <a href="{{ route('posts.create') }}" class="btn btn-success">Новая статья</a>
-    <table class="table">
+	<br><br>
+    <table class="table table-striped">
         <thead>
         <tr>
             <th>#</th>
@@ -14,8 +15,8 @@
             <th>Действия</th>
         </tr>
         </thead>
-        @forelse($posts as $post)
-            <tbody>
+		<tbody>
+			@forelse($posts as $post)
             <tr>
                 <th>{{ $post->id }}</th>
                 <td>{{ $post->title }}</td>
@@ -23,21 +24,25 @@
                 <td>{{ $post->created_at }}</td>
                 <td>{{ $post->updated_at }}</td>
                 <td>
-                    <a href="{{ route('posts.show', ['post' => $post]) }}" class="btn btn-outline-info">Просмотр</a>
-                    <a href="{{ route('posts.edit', ['post' => $post]) }}" class="btn btn-outline-warning">Редактирование</a>
-                    <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#mod{{$post->id}}">
-                        Удаление
-                    </button>
+					<div class="btn-group">
+						<a href="{{ route('posts.show', ['post' => $post]) }}" class="btn btn-outline-info">
+							<i class="fas fa-eye"></i>
+						</a>
+						<a href="{{ route('posts.edit', ['post' => $post]) }}" class="btn btn-outline-warning">
+							<i class="fas fa-edit"></i>
+						</a>
+						<button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#mod{{$post->id}}">
+							<i class="fas fa-trash-alt"></i>
+						</button>
+					</div>
 
-                    <!-- Modal -->
+                    <!-- Modal delete -->
                     <div class="modal fade" id="mod{{$post->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">Удаление статьи #{{ $post->id }}</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+                                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     Вы уверены, что хотите удалить статью "{{ $post->title }}"?
@@ -53,13 +58,11 @@
                     </div>
                 </td>
             </tr>
-            </tbody>
-        @empty
-            <tbody>
-            <tr>
-                <td>Списко статей пуст...</td>
-            </tr>
-            </tbody>
-        @endforelse
+			@empty
+				<p>Списко статей пуст...</p>
+			@endforelse
+		</tbody>
     </table>
+	
+	{{ $posts->links() }}
 @endsection

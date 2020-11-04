@@ -2,14 +2,14 @@
 
 @section('content')
     <h1 class="display-4">Статьи</h1>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-3">
         @forelse($posts as $post)
             <div class="col">
                 <div class="card h-100">
                     @if($post->cover_image != '')
                         <img src="{{ url('/storage/cover_image/'.$post->cover_image) }}" class="card-img-top" alt="{{ $post->title }}">
                     @else
-                        <img src="https://placekitten.com/300/200" class="card-img-top" alt="No image">
+                        <img src="https://fakeimg.pl/300x200/868e96/?text=%20" class="card-img-top" alt="No image">
                     @endif
                     <div class="card-header">
                         <small class="text-muted">Автор: {{ $post->user->name }}</small>
@@ -28,4 +28,7 @@
             <p>Списко статей пуст...</p>
         @endforelse
     </div>
+
+	{{ $posts->links() }}
+	
 @endsection
