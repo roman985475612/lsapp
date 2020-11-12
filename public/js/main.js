@@ -6,4 +6,9 @@ $(document).ready(function () {
             $(this).addClass('active');
         }
     });
+	
+	// Init CKEDITOR
+	const editor = CKEDITOR.replaceAll()
+    CKFINDER.setupCKEditor( editor )
+
 });
